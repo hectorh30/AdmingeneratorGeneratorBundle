@@ -58,7 +58,7 @@ class PropelGenerator extends Generator
             )
         );
         $generator->setBaseController('Admingenerator\GeneratorBundle\Controller\Propel\BaseController');
-        $generator->setColumnClass('Admingenerator\GeneratorBundle\Generator\PropelColumn');
+        $generator->setColumnClass($this->container->getParameter('admingenerator.propel_column.class'));
         $generator->setBaseGeneratorName($this->getBaseGeneratorName());
 
         $embed_types = $generator->getFromYaml('params.embed_types', array());
@@ -150,7 +150,7 @@ class PropelGenerator extends Generator
                 array(__DIR__.'/../Resources/templates/Propel')
             )
         );
-         $embedGenerator->setColumnClass('Admingenerator\GeneratorBundle\Generator\PropelColumn');
+        $embedGenerator->setColumnClass($this->container->getParameter('admingenerator.propel_column.class'));
 
         $embedGenerator->addBuilder(new EditBuilderType());
         $embedGenerator->addBuilder(new NewBuilderType());

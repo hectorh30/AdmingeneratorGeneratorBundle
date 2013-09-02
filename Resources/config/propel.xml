@@ -7,6 +7,7 @@
         <parameter key="admingenerator.propel.class">Admingenerator\GeneratorBundle\Generator\PropelGenerator</parameter>
         <parameter key="admingenerator.fieldguesser.propel.class">Admingenerator\GeneratorBundle\Guesser\PropelORMFieldGuesser</parameter>
         <parameter key="admingenerator.queryfilter.propel.class">Admingenerator\GeneratorBundle\QueryFilter\PropelQueryFilter</parameter>
+        <parameter key="admingenerator.propel_column.class">Admingenerator\GeneratorBundle\Generator\PropelColumn</parameter>
     </parameters>
     <services>
         <!-- Propel -->
