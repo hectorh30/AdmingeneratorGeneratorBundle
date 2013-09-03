@@ -12,9 +12,9 @@ use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 
 use Symfony\Component\HttpFoundation\ParameterBag;
 
-use TwigGenerator\Builder\BaseBuilder as GenericBaseBuilder;
+use TwigGenerator\Builder\BaseBuilder as TwigBuilder;
 
-abstract class BaseBuilder extends GenericBaseBuilder
+abstract class BaseBuilder extends TwigBuilder
 {
     /**
      * @var array

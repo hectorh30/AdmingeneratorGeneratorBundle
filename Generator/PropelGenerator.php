@@ -2,7 +2,7 @@
 
 namespace Admingenerator\GeneratorBundle\Generator;
 
-use Admingenerator\GeneratorBundle\Builder\Generator as AdminGenerator;
+use Admingenerator\GeneratorBundle\Builder\Generator as TwigGenerator;
 use Admingenerator\GeneratorBundle\Exception\CantGenerateException;
 
 use Admingenerator\GeneratorBundle\Builder\Propel\ListBuilderAction;
@@ -40,7 +40,7 @@ class PropelGenerator extends Generator
     {
         $this->validateYaml();
 
-        $generator = new AdminGenerator($this->cache_dir, $this->getGeneratorYml());
+        $generator = new TwigGenerator($this->cache_dir, $this->getGeneratorYml());
 
         $generator->setContainer($this->container);
         $generator->setBaseAdminTemplate(
@@ -57,6 +57,7 @@ class PropelGenerator extends Generator
                 array(__DIR__.'/../Resources/templates/Propel')
             )
         );
+
         $generator->setBaseController('Admingenerator\GeneratorBundle\Controller\Propel\BaseController');
         $generator->setColumnClass($this->container->getParameter('admingenerator.propel_column.class'));
         $generator->setBaseGeneratorName($this->getBaseGeneratorName());
