@@ -5,25 +5,25 @@ namespace Admingenerator\GeneratorBundle\Generator;
 use Admingenerator\GeneratorBundle\Builder\Generator as TwigGenerator;
 use Admingenerator\GeneratorBundle\Exception\CantGenerateException;
 
-use Admingenerator\GeneratorBundle\Builder\Propel\ListBuilderAction;
-use Admingenerator\GeneratorBundle\Builder\Propel\ListBuilderTemplate;
-use Admingenerator\GeneratorBundle\Builder\Propel\NestedListBuilderAction;
-use Admingenerator\GeneratorBundle\Builder\Propel\NestedListBuilderTemplate;
-use Admingenerator\GeneratorBundle\Builder\Propel\FiltersBuilderType;
+use Admingenerator\GeneratorBundle\Builder\Propel\ListControllerBuilder;
+use Admingenerator\GeneratorBundle\Builder\Propel\ListTemplateBuilder;
+use Admingenerator\GeneratorBundle\Builder\Propel\NestedListControllerBuilder;
+use Admingenerator\GeneratorBundle\Builder\Propel\NestedListTemplateBuilder;
+use Admingenerator\GeneratorBundle\Builder\Propel\FiltersFormTypeBuilder;
 
-use Admingenerator\GeneratorBundle\Builder\Propel\EditBuilderAction;
-use Admingenerator\GeneratorBundle\Builder\Propel\EditBuilderTemplate;
-use Admingenerator\GeneratorBundle\Builder\Propel\EditBuilderType;
+use Admingenerator\GeneratorBundle\Builder\Propel\EditControllerBuilder;
+use Admingenerator\GeneratorBundle\Builder\Propel\EditTemplateBuilder;
+use Admingenerator\GeneratorBundle\Builder\Propel\EditFormTypeBuilder;
 
-use Admingenerator\GeneratorBundle\Builder\Propel\NewBuilderAction;
-use Admingenerator\GeneratorBundle\Builder\Propel\NewBuilderTemplate;
-use Admingenerator\GeneratorBundle\Builder\Propel\NewBuilderType;
+use Admingenerator\GeneratorBundle\Builder\Propel\NewControllerBuilder;
+use Admingenerator\GeneratorBundle\Builder\Propel\NewTemplateBuilder;
+use Admingenerator\GeneratorBundle\Builder\Propel\NewFormTypeBuilder;
 
-use Admingenerator\GeneratorBundle\Builder\Propel\ShowBuilderAction;
-use Admingenerator\GeneratorBundle\Builder\Propel\ShowBuilderTemplate;
+use Admingenerator\GeneratorBundle\Builder\Propel\ShowControllerBuilder;
+use Admingenerator\GeneratorBundle\Builder\Propel\ShowTemplateBuilder;
 
-use Admingenerator\GeneratorBundle\Builder\Propel\ActionsBuilderAction;
-use Admingenerator\GeneratorBundle\Builder\Propel\ActionsBuilderTemplate;
+use Admingenerator\GeneratorBundle\Builder\Propel\ActionsControllerBuilder;
+use Admingenerator\GeneratorBundle\Builder\Propel\ActionsTemplateBuilder;
 
 class PropelGenerator extends Generator
 {
@@ -71,37 +71,37 @@ class PropelGenerator extends Generator
         $builders = $generator->getFromYaml('builders', array());
 
         if (array_key_exists('list', $builders)) {
-            $generator->addBuilder(new ListBuilderAction());
-            $generator->addBuilder(new ListBuilderTemplate());
-            $generator->addBuilder(new FiltersBuilderType());
+            $generator->addBuilder(new ListControllerBuilder());
+            $generator->addBuilder(new ListTemplateBuilder());
+            $generator->addBuilder(new FiltersFormTypeBuilder());
         }
 
         if (array_key_exists('nested_list', $builders)) {
-            $generator->addBuilder(new NestedListBuilderAction());
-            $generator->addBuilder(new NestedListBuilderTemplate());
-            $generator->addBuilder(new FiltersBuilderType());
+            $generator->addBuilder(new NestedListControllerBuilder());
+            $generator->addBuilder(new NestedListTemplateBuilder());
+            $generator->addBuilder(new FiltersFormTypeBuilder());
         }
 
         if (array_key_exists('edit', $builders)) {
-            $generator->addBuilder(new EditBuilderAction());
-            $generator->addBuilder(new EditBuilderTemplate());
-            $generator->addBuilder(new EditBuilderType());
+            $generator->addBuilder(new EditControllerBuilder());
+            $generator->addBuilder(new EditTemplateBuilder());
+            $generator->addBuilder(new EditFormTypeBuilder());
         }
 
         if (array_key_exists('new', $builders)) {
-            $generator->addBuilder(new NewBuilderAction());
-            $generator->addBuilder(new NewBuilderTemplate());
-            $generator->addBuilder(new NewBuilderType());
+            $generator->addBuilder(new NewControllerBuilder());
+            $generator->addBuilder(new NewTemplateBuilder());
+            $generator->addBuilder(new NewFormTypeBuilder());
         }
 
         if (array_key_exists('show', $builders)) {
-            $generator->addBuilder(new ShowBuilderAction());
-            $generator->addBuilder(new ShowBuilderTemplate());
+            $generator->addBuilder(new ShowControllerBuilder());
+            $generator->addBuilder(new ShowTemplateBuilder());
         }
 
         if (array_key_exists('actions', $builders)) {
-            $generator->addBuilder(new ActionsBuilderAction());
-            $generator->addBuilder(new ActionsBuilderTemplate());
+            $generator->addBuilder(new ActionsControllerBuilder());
+            $generator->addBuilder(new ActionsTemplateBuilder());
         }
 
         $generator->writeOnDisk(
@@ -153,8 +153,8 @@ class PropelGenerator extends Generator
         );
         $embedGenerator->setColumnClass($this->container->getParameter('admingenerator.propel_column.class'));
 
-        $embedGenerator->addBuilder(new EditBuilderType());
-        $embedGenerator->addBuilder(new NewBuilderType());
+        $embedGenerator->addBuilder(new EditFormTypeBuilder());
+        $embedGenerator->addBuilder(new NewFormTypeBuilder());
 
         $embedGenerator->writeOnDisk(
             $this->getCachePath(
