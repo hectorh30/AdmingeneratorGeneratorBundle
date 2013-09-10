@@ -16,9 +16,4 @@ class EmptyControllerBuilder extends BaseBuilder
     {
         return array(realpath(dirname(__FILE__).'/../../Resources/templates'));
     }
-
-    public function getTemplateName()
-    {
-        return 'EmptyBuilderAction.php.twig';
-    }
 }
