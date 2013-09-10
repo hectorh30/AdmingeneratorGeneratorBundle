@@ -1,4 +1,4 @@
-{% use '../CommonAdmin/security_action.php.twig' %}
+{% use '../Admin/security_action.php.twig' %}
 {% block index_use %}
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use {{ builder.namespacePrefixWithSubfolder }}\{{ bundle_name }}\Form\Type\{{ builder.BaseGeneratorName ? builder.BaseGeneratorName ~ char(92) : "" }}EditType;
