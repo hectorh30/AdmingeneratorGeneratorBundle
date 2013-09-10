@@ -37,7 +37,7 @@ class PropelORMFieldGuesser extends ContainerAware
 
     public function getDbType($class, $fieldName)
     {
-        error_log(sprintf('getting dbtype for: %s, %s'),$class, $fieldName);
+        error_log(sprintf('getting dbtype for: %s, %s', $class, $fieldName));
 
         $relation = $this->getRelation($fieldName, $class);
 

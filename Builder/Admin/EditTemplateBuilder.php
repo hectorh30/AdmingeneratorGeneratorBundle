@@ -16,9 +16,9 @@ class EditTemplateBuilder extends BaseEditBuilder
     {
         return parent::getTemplatesToGenerate() + array(
                 'EditBuilderTemplate'.self::TWIG_EXTENSION
-                    => 'Resources/views/'.$this->getBaseGeneratorName().'Edit/index.html.twig',
+                    => 'Resources/views/'.$this->getBaseGeneratorName().'/edit/index.html.twig',
                 'Edit/FormBuilderTemplate'.self::TWIG_EXTENSION
-                    => 'Resources/views/'.$this->getBaseGeneratorName().'Edit/form.html.twig',
+                    => 'Resources/views/'.$this->getBaseGeneratorName().'/edit/form.html.twig',
         );
     }
 }

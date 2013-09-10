@@ -10,6 +10,6 @@ class ActionsTemplateBuilder extends BaseActionsBuilder
 {
     public function getOutputName()
     {
-        return 'Resources/views/'.$this->getBaseGeneratorName().'Actions/index.html.twig';
+        return 'Resources/views/'.$this->getBaseGeneratorName().'/actions/index.html.twig';
     }
 }

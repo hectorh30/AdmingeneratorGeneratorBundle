@@ -16,13 +16,13 @@ class NestedListTemplateBuilder extends BaseNestedListBuilder
     {
         return parent::getTemplatesToGenerate() + array(
             'NestedListBuilderTemplate'.self::TWIG_EXTENSION
-                => 'Resources/views/'.$this->getBaseGeneratorName().'List/index.html.twig',
+                => 'Resources/views/'.$this->getBaseGeneratorName().'/list/index.html.twig',
             'NestedList/ResultsBuilderTemplate'.self::TWIG_EXTENSION
-                => 'Resources/views/'.$this->getBaseGeneratorName().'List/results.html.twig',
+                => 'Resources/views/'.$this->getBaseGeneratorName().'/list/results.html.twig',
             'NestedList/RowBuilderTemplate'.self::TWIG_EXTENSION
-                => 'Resources/views/'.$this->getBaseGeneratorName().'List/row.html.twig',
+                => 'Resources/views/'.$this->getBaseGeneratorName().'/list/row.html.twig',
             'List/FiltersBuilderTemplate'.self::TWIG_EXTENSION
-                => 'Resources/views/'.$this->getBaseGeneratorName().'List/filters.html.twig',
+                => 'Resources/views/'.$this->getBaseGeneratorName().'/list/filters.html.twig',
         );
     }
 }
