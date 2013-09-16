@@ -12,14 +12,4 @@ class EditFormTypeBuilder extends BaseEditBuilder
     {
         return 'Form/Type/'.$this->getBaseGeneratorName().'/EditType.php';
     }
-
-    /**
-     * Returns the name of the template to render
-     * 
-     * @return string Name of the template to render
-     */
-    public function getTemplateName()
-    {
-        return 'EditBuilderType.php.twig';
-    }
 }

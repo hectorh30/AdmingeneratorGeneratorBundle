@@ -15,6 +15,6 @@ class FiltersFormTypeBuilder extends BaseFiltersBuilder
 
     public function getTemplateName()
     {
-        return 'EditBuilderType' . self::TWIG_EXTENSION;
+        return 'EditFormTypeBuilder'.self::TWIG_EXTENSION;
     }
 }

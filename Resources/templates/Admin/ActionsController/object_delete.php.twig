@@ -32,7 +32,7 @@
         }
 
         return $this->render(
-            '{{ namespace_prefix }}{{ bundle_name }}:{{ builder.BaseGeneratorName }}Actions:index.html.twig',
+            '{{ namespace_prefix }}{{ bundle_name }}:{{ builder.BaseGeneratorName }}:actions/index.html.twig',
             $this->getAdditionalRenderParameters(${{ builder.ModelClass }}, '{{ action.name }}') + array(
                 "{{ builder.ModelClass }}" => ${{ builder.ModelClass }},
                 "title" => $this->get('translator')->trans(

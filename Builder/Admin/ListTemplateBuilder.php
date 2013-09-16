@@ -16,16 +16,16 @@ class ListTemplateBuilder extends BaseListBuilder
     {
         return parent::getTemplatesToGenerate() + array(
 
-            'ListBuilderTemplate'.self::TWIG_EXTENSION
+            'ListTemplateBuilder'.self::TWIG_EXTENSION
                 => 'Resources/views/'.$this->getBaseGeneratorName().'/list/index.html.twig',
 
-            'List/FiltersBuilderTemplate'.self::TWIG_EXTENSION
+            'List/FiltersTemplateBuilder'.self::TWIG_EXTENSION
                 => 'Resources/views/'.$this->getBaseGeneratorName().'/list/filters.html.twig',
 
-            'List/ResultsBuilderTemplate'.self::TWIG_EXTENSION
+            'List/ResultsTemplateBuilder'.self::TWIG_EXTENSION
                 => 'Resources/views/'.$this->getBaseGeneratorName().'/list/results.html.twig',
 
-            'List/RowBuilderTemplate'.self::TWIG_EXTENSION
+            'List/RowTemplateBuilder'.self::TWIG_EXTENSION
                 => 'Resources/views/'.$this->getBaseGeneratorName().'/list/row.html.twig',
         );
     }

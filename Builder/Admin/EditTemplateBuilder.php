@@ -15,10 +15,10 @@ class EditTemplateBuilder extends BaseEditBuilder
     public function getTemplatesToGenerate()
     {
         return parent::getTemplatesToGenerate() + array(
-                'EditBuilderTemplate'.self::TWIG_EXTENSION
-                    => 'Resources/views/'.$this->getBaseGeneratorName().'/edit/index.html.twig',
-                'Edit/FormBuilderTemplate'.self::TWIG_EXTENSION
-                    => 'Resources/views/'.$this->getBaseGeneratorName().'/edit/form.html.twig',
+            'EditTemplateBuilder'.self::TWIG_EXTENSION
+                => 'Resources/views/'.$this->getBaseGeneratorName().'/edit/index.html.twig',
+            'Edit/FormTemplateBuilder'.self::TWIG_EXTENSION
+                => 'Resources/views/'.$this->getBaseGeneratorName().'/edit/form.html.twig',
         );
     }
 }
