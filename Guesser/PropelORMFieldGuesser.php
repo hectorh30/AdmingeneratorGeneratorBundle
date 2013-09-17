@@ -38,7 +38,7 @@ class PropelORMFieldGuesser extends ContainerAware
     public function getDbType($class, $fieldName)
     {
         $relation = $this->getRelation($fieldName, $class);
-        
+
         if ($relation) {
             return \RelationMap::MANY_TO_ONE === $relation->getType() ? 'model' : 'collection';
         }

@@ -261,7 +261,7 @@ class Generator extends TwigGeneratorGenerator
 
     public function getGeneratedControllerFolder()
     {
-        return 'Base'.$this->base_generator_name.'Controller';
+        return 'Controller/'.$this->base_generator_name;
     }
 
     public function setContainer(ContainerInterface $container)

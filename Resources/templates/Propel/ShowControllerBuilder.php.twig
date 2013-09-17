@@ -1,0 +1,8 @@
+{% extends '../Admin/ShowAction/ShowControllerBuilder.php.twig' %}
+
+{% block getObject -%}
+    protected function getObject($pk)
+    {
+        return \{{ model }}Query::create()->findPk($pk);
+    }
+{% endblock %}

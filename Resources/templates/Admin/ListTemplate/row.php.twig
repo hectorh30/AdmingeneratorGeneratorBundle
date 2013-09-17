@@ -1,0 +1,43 @@
+{% use '../Admin/ListTemplate/Column/boolean.php.twig' %}
+{% use '../Admin/ListTemplate/Column/date.php.twig' %}
+{% use '../Admin/ListTemplate/Column/datetime.php.twig' %}
+{% use '../Admin/ListTemplate/Column/money.php.twig' %}
+{% use '../Admin/ListTemplate/Column/decimal.php.twig' %}
+{% use '../Admin/ListTemplate/Column/collection.php.twig' %}
+
+{% block list_row_content %}
+{{ echo_block("list_row_content") }}
+    {% if batch_actions is defined and batch_actions|length > 0 %}
+        <td class="td_batch_action">
+            <input type="checkbox" name="selected[]" class="batch_select_id" value="{{- echo_twig(builder.ModelClass ~ '.' ~ builder.getModelPrimaryKeyName) -}}" />
+        </td>
+    {% endif %}
+    {% for column in builder.columns %}
+    {% if column.credentials %}
+          {{ echo_if_granted(column.credentials) }}
+    {% endif %}
+          <td class="td_{{ column.dbType }} td_{{ column.name }}">
+              {{ echo_block('list_td_column_' ~ column.name) -}}
+              {%- if column.dbType|lower == "boolean" -%}
+                  {{- block('column_boolean') -}}
+              {%- elseif column.dbType|lower == "date" -%}
+                  {{- block('column_date') -}}
+              {%- elseif (column.dbType|lower == "datetime") or (column.dbType|lower == "timestamp") or (column.dbType|lower == "vardatetime") or (column.dbType|lower == "datetimetz") -%}
+                  {{- block('column_datetime') -}}
+              {%- elseif column.formType|lower == "money" -%}
+                  {{- block('column_money') -}}
+              {%- elseif column.dbType|lower == "decimal" -%}
+                  {{- block('column_decimal') -}}
+              {%- elseif (column.dbType|lower == "array") or (column.dbType|lower == "collection")  -%}
+                  {{- block('column_collection') -}}
+              {%- else -%}
+                  {{- echo_twig(builder.ModelClass ~ '.' ~ column.getter) -}}
+              {%- endif -%}
+              {{- echo_endblock() }}
+          </td>
+    {% if column.credentials %}
+        {{ echo_endif () }}
+    {% endif %}
+    {% endfor %}
+{{ echo_endblock() }}
+{% endblock %}

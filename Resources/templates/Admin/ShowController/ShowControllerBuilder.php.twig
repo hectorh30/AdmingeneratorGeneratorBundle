@@ -1,0 +1,37 @@
+{% use '../Admin/ShowAction/index.php.twig' %}
+{% use '../Admin/security_action.php.twig' %}
+<?php
+
+namespace Admingenerated\{{ namespace_prefix }}{{ bundle_name }}\Controller\{{ builder.BaseGeneratorName }};
+
+use {{ builder.generator.baseController }} as BaseController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
+{{- block('index_use') -}}
+
+{{- block('security_use') }}
+
+class ShowController extends BaseController
+{
+    {{- block('index') -}}
+
+    {{- block('security_check') }}
+
+    /**
+     * Get additional parameters for rendering.
+     *
+     * @param \{{ model }} ${{ builder.ModelClass }} your \{{ model }} object
+     * return array
+     **/
+    protected function getAdditionalRenderParameters(\{{ model }} ${{ builder.ModelClass }})
+    {
+        return array();
+    }
+
+    {% block getObject -%}
+    protected function getObject($pk)
+    {
+        //ORM do JOB
+    }
+    {% endblock %}
+}

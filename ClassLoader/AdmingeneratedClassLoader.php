@@ -2,7 +2,7 @@
 
 namespace Admingenerator\GeneratorBundle\ClassLoader;
 
-use Admingenerator\GeneratorBundle\Builder\Admin\EmptyBuilderAction;
+use Admingenerator\GeneratorBundle\Builder\Admin\EmptyControllerBuilder;
 use Admingenerator\GeneratorBundle\Builder\EmptyGenerator;
 
 /**
@@ -58,7 +58,7 @@ class AdmingeneratedClassLoader
         $namespace = implode('\\', $parts);
         $fileName = str_replace('\\', DIRECTORY_SEPARATOR, $class);
 
-        $builder = new EmptyBuilderAction();
+        $builder = new EmptyControllerBuilder();
         $generator->addBuilder($builder);
         $builder->setOutputName($fileName.'.php');
 

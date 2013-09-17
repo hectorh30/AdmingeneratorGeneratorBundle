@@ -49,6 +49,7 @@ class BaseBuilder extends GenericBaseBuilder
     protected function findColumns()
     {
         foreach ($this->getDisplayAsColumns() as $columnName) {
+
             $column = new $this->columnClass($columnName);
 
             $column->setDbType(
@@ -137,44 +138,71 @@ class BaseBuilder extends GenericBaseBuilder
 
     /**
      * Extract from the displays arrays of fieldset to keep only columns
-     *
+     * 
+     * Example:
+     * 
+     *  display: 
+     * 
      * @return array
      */
     protected function getDisplayAsColumns()
     {
-        $display = $this->getVariable('display');
 
-        // tabs
+        $display = $this->getVariable('tabs');
+
+        if (is_array($display)) {
+            $return = $this->array_values_recursive($display);
+            return $return;
+        } else {
+            return array();
+        }
+
+
+        // If display is null or is empty
         if (null == $display || 0 == sizeof($display)) {
+            
+            // Look for tabs
             $tabs = $this->getVariable('tabs');
 
+            // If tabs is set 
             if (null != $tabs || 0 < sizeof($tabs)) {
                 $display = array();
 
+                // Merge content of tabs into $display array
                 foreach ($tabs as $tab) {
                     $display = array_merge($display, $tab);
                 }
             }
         }
 
-        if (null == $display || 0 == sizeof($display)) {
+        // If display is still null
+        if (null == $display) {
             return $this->getAllFields();
+        } 
+        // If array is still empty
+        else if (0 == sizeof($display)) {
+            return array();
         }
 
+        // If display contains an number-indexed array
         if (isset($display[0])) {
+            // Return it
             return $display;
         }
 
-        //there is fieldsets
+        // But if it contains an string-indexed array, there is fieldsets
         $return = array();
 
         foreach ($display as $fieldset => $rows_or_fields) {
+
             foreach ($rows_or_fields as $fields) {
+
                 if (is_array($fields)) { //It s a row
                     $return = array_merge($return, $fields);
                 } else {
                     $return[$fields] = $fields;
                 }
+
             }
         }
 
@@ -196,6 +224,8 @@ class BaseBuilder extends GenericBaseBuilder
      */
     public function getFieldsets()
     {
+        return array();
+
         $display = $this->getVariable('display');
 
         // tabs
@@ -457,7 +487,7 @@ class BaseBuilder extends GenericBaseBuilder
      */
     public function getModelPrimaryKeyName()
     {
-        return $this->getGenerator()->getFieldGuesser()->getModelPrimaryKeyName();
+        return $this->getGenerator()->getFieldGuesser()->getModelPrimaryKeyName($this->getVariable('model'));
     }
 
     /**
@@ -551,5 +581,21 @@ class BaseBuilder extends GenericBaseBuilder
         );
 
         return $javascripts;
+    }
+
+    public function array_values_recursive($ary)
+    {
+       $lst = array();
+       foreach ( array_keys($ary) as $k ) {
+          $v = $ary[$k];
+          if (is_scalar($v)) {
+             $lst[] = $v;
+          } elseif (is_array($v)) {
+             $lst = array_merge( $lst,
+                $this->array_values_recursive($v)
+             );
+          }
+       }
+       return $lst;
     }
 }

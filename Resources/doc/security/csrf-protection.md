@@ -47,11 +47,11 @@ Examples based on `Resources\templates\CommonAdmin\DeleteAction`.
 ##### in `XxxxxAction/XxxxxBuilderAction.php.twig`
 
 ```html+django
-{% use '../CommonAdmin/DeleteAction/index.php.twig' %}
-{% use '../CommonAdmin/security_action.php.twig' %}
+{% use '../Admin/DeleteAction/index.php.twig' %}
+{% use '../Admin/security_action.php.twig' %}
 
 // use csrf_protection template code snippets
-{% use '../CommonAdmin/csrf_protection.php.twig' %}
+{% use '../Admin/csrf_protection.php.twig' %}
 
 <?php
 
@@ -79,10 +79,10 @@ class DeleteController extends BaseController
 ##### in `XxxxxAction/index.php.twig`
 
 ```html+django
-{% use '../CommonAdmin/security_action.php.twig' %}
+{% use '../Admin/security_action.php.twig' %}
 
 // use csrf_protection template code snippets
-{% use '../CommonAdmin/csrf_protection.php.twig' %}
+{% use '../Admin/csrf_protection.php.twig' %}
 
 {% block index %}
 

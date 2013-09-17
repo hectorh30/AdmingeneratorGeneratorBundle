@@ -1,0 +1,50 @@
+{% use '../Admin/ShowTemplate/show.php.twig' %}
+{% use '../Admin/ShowTemplate/sidebar.php.twig' %}
+{% use '../Admin/stylesheets.php.twig' %}
+{% use '../Admin/javascripts.php.twig' %}
+{% use '../Admin/title.php.twig' %}
+{% use '../Admin/tabs.php.twig' %}
+{% use '../Admin/object_actions.php.twig' %}
+
+{{ echo_extends( builder.getBaseAdminTemplate ) }}
+
+{{ echo_block("stylesheets") }}
+    {{- block('complementary_stylesheets') -}}
+{{ echo_endblock() }}
+
+{{ echo_block("javascripts") }}
+    {{- block('complementary_javascripts') -}}
+    {{- block('object_actions_script') -}}
+{{ echo_endblock() }}
+
+{{- block('site_title') -}}
+
+{{ echo_block("body") }}
+    {{- block('title') -}}
+    
+    <div class="row-fluid object-actions-{{ builder.ModelClass }}">
+        <div class="span12">
+            {{- block('object_actions') -}}
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        {% if sidebar is defined and sidebar|length > 0 %}
+            <div class="span8">
+        {% endif %}
+                {{- block('tabs') }}
+                {% if tabs is defined and tabs|length > 0 %}
+                <div class="tab-content">
+                {% endif %}
+                {{- block('show') -}}
+                {% if tabs is defined and tabs|length > 0 %}
+                </div>
+                {% endif %}
+        {% if sidebar is defined and sidebar|length > 0 %}
+            </div>
+            <div class="span4">
+                {{- block('show_sidebar') -}}
+            </div>
+        {% endif %}
+    </div>
+{{ echo_endblock() }}
