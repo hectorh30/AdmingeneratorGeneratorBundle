@@ -150,8 +150,13 @@ class BaseBuilder extends GenericBaseBuilder
 
         $display = $this->getVariable('tabs');
 
+        if (null == $display || 0 == sizeof($display))
+            $display = $this->getVariable('display');
+
         if (is_array($display)) {
             $return = $this->array_values_recursive($display);
+            error_log('returning from getDisplayAsColumns: ');
+            error_log(print_r($return, true));
             return $return;
         } else {
             return array();
