@@ -149,7 +149,7 @@ class PropelGenerator extends Generator
         $embedGenerator->setTemplateDirs(
             array_merge(
                 $this->container->getParameter('admingenerator.propel_templates_dirs'),
-                array(__DIR__.'/../Resources/templates/Propel')
+                array('AdmingeneratorGeneratorBundle' => __DIR__.'/../Resources/templates/Propel')
             )
         );
         $embedGenerator->setColumnClass($this->container->getParameter('admingenerator.propel_column.class'));
