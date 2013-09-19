@@ -39,8 +39,8 @@
     </option>
 {% endblock %}
 
-{% block form_batch_actions %}
-{{ echo_block("form_batch_actions") }}
+{% block batch_actions_form %}
+{{ echo_block("batch_actions_form") }}
 {% if batch_actions is defined and batch_actions|length > 0 %}
     {% set actionPathName = builder.routePrefixWithSubfolder ~ '_' ~ bundle_name ~ ( builder.BaseGeneratorName ? "_" ~ builder.BaseGeneratorName : "" ) ~ '_batch' %}
     <form id="form-list-{{ builder.ModelClass }}" method="post" action="{{ echo_path(actionPathName) }}">
@@ -49,8 +49,8 @@
 {{ echo_endblock() }}
 {% endblock %}
     
-{% block endform_batch_actions %}
-{{ echo_block("endform_batch_actions") }}
+{% block end_batch_actions_form %}
+{{ echo_block("end_batch_actions_form") }}
 {% if batch_actions is defined and batch_actions|length > 0 %}
     </form>
     <script src="{{ echo_twig('asset("bundles/admingeneratorgenerator/js/admingenerator/batch-actions.js")') }}"></script>

@@ -4,19 +4,28 @@
 {% use '../Admin/tabs.php.twig' %}
 {% use '../Admin/object_actions.php.twig' %}
 
-{{ echo_extends( builder.getBaseAdminTemplate ) }}
+{% block extends_block %}
+{{- echo_extends( builder.getBaseAdminTemplate ) }}
+{% endblock %}
 
+{% block stylesheets_block %}
 {{ echo_block("stylesheets") }}
     {{- block('complementary_stylesheets') -}}
 {{ echo_endblock() }}
+{% endblock %}
 
+{% block javascripts_block %}
 {{ echo_block("javascripts") }}
     {{- block('complementary_javascripts') -}}
     {{- block('object_actions_script') -}}
 {{ echo_endblock() }}
+{% endblock %}
 
+{% block site_title_block %}
 {{- block('site_title') -}}
+{% endblock %}
 
+{% block body_block %}
 {{ echo_block("body") }}
     {{- block('title') -}}
 
@@ -30,5 +39,5 @@
         {{- block('tabs') }}
         {{ echo_include(builder.namespacePrefixForTemplate ~ bundle_name ~ ':' ~ builder.BaseGeneratorName ~ ':' ~ builder.yamlKey ~ '/form.html.twig') }}
     </div>
-
 {{ echo_endblock() }}
+{% endblock %}

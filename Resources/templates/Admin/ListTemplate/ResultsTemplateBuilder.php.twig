@@ -7,36 +7,45 @@
 
 {% block list_results %}
 <div class="results-list">
-    {{- block('list_nbresults') -}}
+    {{ block('list_nbresults') -}}
 
-    {{- block('form_batch_actions') }}
+    {{- block('batch_actions_form') }}
 
-        <table id="table-list-{{ builder.ModelClass }}" class="table table-striped table-hover table-condensed object-actions-{{ builder.ModelClass }}">
-            {{ block('list_thead') -}}
-            {{- block('list_tbody') }}
-        </table>
+    {{ echo_block("list_table") }}
+    <table id="table-list-{{ builder.ModelClass }}" class="table table-striped table-hover table-condensed object-actions-{{ builder.ModelClass }}">
+        {{ block('list_thead') -}}
+        {{- block('list_tbody') }}
+    </table>
+    {{ echo_endblock() }}
 
-        <div class="form-actions list-actions">
-        {% if batch_actions is defined and batch_actions|length > 0 %}
-            <div id="batch_actions" class="pull-left btn-toolbar">
-                {{ block('batch_actions') }}
-            </div>
-        {% endif -%}
-
-        {% if actions is defined and actions|length > 0 %}
-            <div id="generic_actions" class="pull-left btn-toolbar">
-                {{ block('generic_actions') -}}
-            </div>
-        {% endif -%}
-
-            <div class="pull-right btn-toolbar">
-                {{- block('list_paginator_perpage') -}}
-            </div>
-
-            <div class="pull-right btn-toolbar">
-                {{- block('list_paginator_pages') -}}
-            </div>
+    {{ echo_block("batch_actions_container") }}
+    <div class="form-actions list-actions">
+    {% if batch_actions is defined and batch_actions|length > 0 %}
+        {{ echo_block("batch_actions") }}
+        <div id="batch_actions" class="pull-left btn-toolbar">
+            {{ block('batch_actions') }}
         </div>
-    {{- block('endform_batch_actions') }}
+        {{ echo_block("batch_actions") }}
+    {% endif -%}
+    {{ echo_endblock() }}
+
+
+    {{ echo_block("actions") }}
+    {% if actions is defined and actions|length > 0 %}
+        <div id="generic_actions" class="pull-left btn-toolbar">
+            {{ block('generic_actions') -}}
+        </div>
+    {% endif -%}
+    {{ echo_endblock() }}
+
+        <div class="pull-right btn-toolbar">
+            {{- block('list_paginator_perpage') -}}
+        </div>
+
+        <div class="pull-right btn-toolbar">
+            {{- block('list_paginator_pages') -}}
+        </div>
+    </div>
+    {{- block('end_batch_actions_form') }}
 </div>
 {% endblock list_results %}
