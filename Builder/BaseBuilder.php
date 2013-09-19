@@ -118,6 +118,11 @@ abstract class BaseBuilder extends TwigBuilder
         $locator = new TemplateLocator(new FileLocator($this->getTemplateDirs()));
         $templateNameParser = new TemplateNameParser();
         $loader = new FilesystemLoader($locator, $templateNameParser);
+
+        foreach ($this->getTemplateDirs() as $key => $value) {
+            $loader->addPath($value, $key);
+        }
+
         $twig = new \Twig_Environment(
             $loader,
             array(

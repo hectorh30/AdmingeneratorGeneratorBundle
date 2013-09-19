@@ -51,10 +51,11 @@ class PropelGenerator extends Generator
         );
         $generator->setFieldGuesser($this->getFieldGuesser());
         $generator->setMustOverwriteIfExists($this->needToOverwrite($generator));
+
         $generator->setTemplateDirs(
             array_merge(
                 $this->container->getParameter('admingenerator.propel_templates_dirs'),
-                array(__DIR__.'/../Resources/templates/Propel')
+                array('AdmingeneratorGeneratorBundle' => __DIR__.'/../Resources/templates/Propel')
             )
         );
 
