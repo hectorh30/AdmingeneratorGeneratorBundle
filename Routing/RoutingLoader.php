@@ -2,14 +2,16 @@
 
 namespace Admingenerator\GeneratorBundle\Routing;
 
-use Symfony\Component\Config\Loader\FileLoader;
+use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Config\Resource\FileResource;
+use Symfony\Component\Config\FileLocatorInterface;
+use Symfony\Component\Config\Exception\FileLoaderLoadException;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
-class RoutingLoader extends FileLoader
+class RoutingLoader extends Loader
 {
     // Assoc beetween a controller and is route path
     //@todo make an object for this
@@ -81,22 +83,47 @@ class RoutingLoader extends FileLoader
     
     protected $yaml = array();
 
+    protected $locator;
+
+    public function __construct(FileLocatorInterface $locator)
+    {
+        $this->locator = $locator;
+    }
+
+    /**
+     * 
+     * @param  [type] $resource Absolute path for resource
+     * @param  [type] $type     [description]
+     * 
+     * @return RouteCollection
+     */
     public function load($resource, $type = null)
     {
+        try {
+
+            $resource = str_replace('\\', '/', $this->locator->locate($resource));
+            $this->yaml = Yaml::parse($this->getGeneratorFilePath($resource));
+            $namespace = $this->getNamespaceFromResource($resource);
+            // TODO: test if needed
+            // $fullBundleName = $this->getFullBundleNameFromResource($resource); // Neded to load other routes
+            $bundle_name = $this->getBundleNameFromResource($resource);
+            $controller_folder = $this->getControllerFolder($resource);
+
+        } catch (\InvalidArgumentException $e) {
+            $this->yaml = Yaml::parse($this->getGeneratorFilePathFromBundleSyntax($resource));
+            $namespace = $this->getFromYaml('params.namespace_prefix');
+            $bundle_name = $this->getFromYaml('params.bundle_name');
+            $controller_folder = $this->getControllerFolderFromBundleSyntax($resource);
+        }
+
         $collection = new RouteCollection();
 
-        $resource = str_replace('\\', '/', $resource);
-        $this->yaml = Yaml::parse($this->getGeneratorFilePath($resource));
-        
-        $namespace = $this->getNamespaceFromResource($resource);
-        $fullBundleName = $this->getFullBundleNameFromResource($resource);
-        $bundle_name = $this->getBundleNameFromResource($resource);
-        
         foreach ($this->actions as $controller => $datas) {
             $action = 'index';
 
             $loweredNamespace = str_replace(array('/', '\\'), '_', $namespace);
-            if ($controller_folder = $this->getControllerFolder($resource)) {
+
+            if ($controller_folder) {
                 $route_name = $loweredNamespace . '_' . $bundle_name . '_' . $controller_folder . '_' . $controller;
             } else {
                 $route_name = $loweredNamespace . '_' . $bundle_name . '_' . $controller;
@@ -116,7 +143,8 @@ class RoutingLoader extends FileLoader
             }
 
             $controllerName = $resource.ucfirst($controller).'Controller.php';
-            if (is_file($controllerName)) {
+
+            if (is_file($controllerName)) { // If file exists
                 if ($controller_folder) {
                     $datas['defaults']['_controller'] = $namespace . '\\'
                             . $bundle_name . '\\Controller\\'
@@ -128,18 +156,23 @@ class RoutingLoader extends FileLoader
                             . $bundle_name . ':'
                             . ucfirst($controller) . ':' . $action;
                 }
-
-                $route = new Route($datas['pattern'], $datas['defaults'], $datas['requirements']);
-                $collection->add($route_name, $route);
-                $collection->addResource(new FileResource($controllerName));
+            } else { // Load admingenerator generated
+                $datas['defaults']['_controller'] = 'Admingenerated' . '\\'
+                            . $namespace . $bundle_name . '\\Controller\\'
+                            . $controller_folder . '\\'
+                            . ucfirst($controller) . 'Controller::'
+                            . $action . 'Action';
             }
+            $route = new Route($datas['pattern'], $datas['defaults'], $datas['requirements']);
+            $collection->add($route_name, $route);
+            // $collection->addResource(new FileResource($controllerName));
         }
 
         // Import other routes from a controller directory (@Route annotation)
-        if ($controller_folder) {
-            $annotationRouteName = '@' . $fullBundleName . '/Controller/' . $controller_folder . '/';
-            $collection->addCollection($this->import($annotationRouteName, 'annotation'));
-        }
+        // if ($controller_folder) {
+        //     $annotationRouteName = '@' . $fullBundleName . '/Controller/' . $controller_folder . '/';
+        //     $collection->addCollection($this->import($annotationRouteName, 'annotation'));
+        // }
 
         return $collection;
     }
@@ -147,6 +180,13 @@ class RoutingLoader extends FileLoader
     public function supports($resource, $type = null)
     {
         return 'admingenerator' == $type;
+    }
+
+    protected function getControllerFolderFromBundleSyntax($resource)
+    {
+        preg_match('#.+Bundle/Controller?/(.*?)/?$#', $resource, $matches);
+
+        return $matches[1];
     }
 
     protected function getControllerFolder($resource)
@@ -162,7 +202,7 @@ class RoutingLoader extends FileLoader
         $finder = Finder::create()
             ->name('*Bundle.php')
             ->depth(0)
-            ->in(realpath($resource.'/../../')) // ressource is controller folder
+            ->in(realpath($resource.'/../../')) // resource is controller folder
             ->getIterator();
         $finder->rewind();
         $file = $finder->current();
@@ -185,12 +225,19 @@ class RoutingLoader extends FileLoader
         return $matches[1];
     }
 
+    protected function getBundleNameFromResourceBundleSyntax($resource)
+    {
+        preg_match('#@(.+Bundle)/Controller?/(.*?)/?$#', $resource, $matches);
+
+        return $matches[1];
+    }
+
     protected function getNamespaceFromResource($resource)
     {
         $finder = Finder::create()
             ->name('*Bundle.php')
             ->depth(0)
-            ->in(realpath($resource.'/../../')) // ressource is controller folder
+            ->in(realpath($resource.'/../../')) // resource is controller folder
             ->getIterator();
 
         foreach ($finder as $file) {
@@ -207,6 +254,27 @@ class RoutingLoader extends FileLoader
             ->name($this->getControllerFolder($resource).'-generator.yml')
             ->depth(0)
             ->in(realpath($resource.'/../../Resources/config/'))
+            ->getIterator();
+
+        foreach ($finder as $file) {
+            return $file->getRealPath();
+        }
+    }
+
+    /**
+     * 
+     * @param  string $resource (e.g. @AcmeDemoBundle/Controller/Foo)
+     * @return [type]           [description]
+     */
+    protected function getGeneratorFilePathFromBundleSyntax($resource)
+    {
+        $bundleName = '@' . $this->getBundleNameFromResourceBundleSyntax($resource);
+        $bundlePath = $this->locator->locate($bundleName);
+
+        $finder = Finder::create()
+            ->name($this->getControllerFolderFromBundleSyntax($resource).'-generator.yml')
+            ->depth(0)
+            ->in(realpath($bundlePath.'/Resources/config/'))
             ->getIterator();
 
         foreach ($finder as $file) {
