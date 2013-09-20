@@ -22,7 +22,9 @@ use {{ builder.namespacePrefixWithSubfolder }}\{{ bundle_name }}\Form\Type\{{ bu
 
         $form = $this->createForm($this->getEditType(), ${{ builder.ModelClass }});
 
-        return $this->render('{{ builder.namespacePrefixForTemplate }}{{ bundle_name }}:{{ builder.BaseGeneratorName }}:edit/index.html.twig', $this->getAdditionalRenderParameters(${{ builder.ModelClass }}) + array(
+        return $this->render(
+            '{{ builder.getDefinedOrGeneratedTemplateName(builder.namespacePrefixForTemplate ~ bundle_name, builder.BaseGeneratorName, "edit/index.html.twig") }}',
+            $this->getAdditionalRenderParameters(${{ builder.ModelClass }}) + array(
             "{{ builder.ModelClass }}" => ${{ builder.ModelClass }},
             "form" => $form->createView(),
         ));

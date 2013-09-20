@@ -37,7 +37,13 @@
 
     <div class="row-fluid">
         {{- block('tabs') }}
-        {{ echo_include(builder.namespacePrefixForTemplate ~ bundle_name ~ ':' ~ builder.BaseGeneratorName ~ ':' ~ builder.yamlKey ~ '/form.html.twig') }}
+        {{ echo_include(
+            builder.getDefinedOrGeneratedTemplateName(
+                builder.namespacePrefixForTemplate ~ bundle_name,
+                builder.BaseGeneratorName,
+                builder.yamlKey ~ "/form.html.twig"
+            )
+        ) }}
     </div>
 {{ echo_endblock() }}
 {% endblock %}

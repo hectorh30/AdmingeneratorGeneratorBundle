@@ -25,13 +25,25 @@
         <div class="{% if builder.filterColumns|length == 0 %} span12 {% else %} span9 {% endif %}">
             {{ block('list_scopes') -}}
 
-            {{ echo_include(builder.namespacePrefixForTemplate ~ bundle_name ~ ':' ~ builder.BaseGeneratorName ~ ':list/results.html.twig') }}
+            {{ echo_include(
+                builder.getDefinedOrGeneratedTemplateName(
+                    builder.namespacePrefixForTemplate ~ bundle_name,
+                    builder.BaseGeneratorName,
+                    "list/results.html.twig"
+                )
+            ) }}
         </div>
         
         {{ echo_block("filters") }}
         {% if builder.filterColumns|length > 0 %}
             <div class="span3">
-                {{ echo_include(builder.namespacePrefixForTemplate ~ bundle_name ~ ':' ~ builder.BaseGeneratorName ~ ':list/filters.html.twig') }}
+                {{ echo_include(
+                    builder.getDefinedOrGeneratedTemplateName(
+                        builder.namespacePrefixForTemplate ~ bundle_name,
+                        builder.BaseGeneratorName,
+                        "list/filters.html.twig"
+                    )
+                ) }}
             </div>
         {% endif %}
         {{ echo_endblock() }}
