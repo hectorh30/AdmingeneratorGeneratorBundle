@@ -28,7 +28,7 @@ class BaseFiltersBuilder extends BaseBuilder
         }
 
         foreach ($display as $columnName) {
-            $column = new Column($columnName);
+            $column = new $this->columnClass($columnName);
 
             $column->setDbType(
                 $this->getFieldOption(

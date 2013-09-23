@@ -96,9 +96,7 @@ class BaseBuilder extends GenericBaseBuilder
                 );
             }
             //Set the user parameters
-            error_log('about to set user parameters for: '.$column->getName());
             $this->setUserColumnConfiguration($column);
-            error_log('finished');
 
             $this->addColumn($column);
         }
@@ -134,7 +132,6 @@ class BaseBuilder extends GenericBaseBuilder
         );
 
         foreach ($options as $option => $value) {
-            error_log('  setting property: '.$option.' over class: '.get_class($column));
             $column->setProperty($option, $value);
         }
     }
