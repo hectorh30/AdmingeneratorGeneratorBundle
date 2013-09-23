@@ -86,29 +86,70 @@ abstract class Generator extends ContainerAware implements GeneratorInterface
      */
     public function needToOverwrite(AdminGenerator $generator)
     {
+        // If set in the configuration file
         if ($this->container->getParameter('admingenerator.overwrite_if_exists')) {
             return true;
         }
 
-        $cacheDir = $this->getCachePath($generator->getFromYaml('params.namespace_prefix'), $generator->getFromYaml('params.bundle_name'));
+        $namespace = $generator->getFromYaml('params.namespace_prefix');
+        $bundle = $generator->getFromYaml('params.bundle_name');
+        $cacheDir = $this->getCachePath($namespace, $bundle);
 
+        // If there's no cache directory
         if (!is_dir($cacheDir)) {
             return true;
         }
 
+        // If the *-generator.yml file is newer than the generated files
         $fileInfo = new \SplFileInfo($this->getGeneratorYml());
 
-        $finder = new Finder();
-        $files = $finder->files()
+        $files = Finder::create()
+                        ->files()
                         ->date('< '.date('Y-m-d H:i:s',$fileInfo->getMTime()))
                         ->in($cacheDir)
-                        ->count();
+                        ->count()
+        ;
 
         if ($files > 0) {
             return true;
         }
 
-        $finder = new Finder();
+        // If there are controllers, views or forms in the user bundle newer than the newest cache file
+        $files = Finder::create()
+            ->files()
+            ->sortByModifiedTime()
+            ->in($cacheDir)
+            ->getIterator()
+        ;
+        foreach ($files as $file) {
+            $fileInfo = new \SplFileInfo($file);
+            break;
+        }
+
+        $bundlePath = $this->container->get('file_locator')->locate(sprintf('@%s%s', $namespace, $bundle));
+        $paths = array_filter(
+            array(
+                sprintf('%sController/%s', $bundlePath, $this->getBaseGeneratorName()),
+                sprintf('%sResources/views/%s/list', $bundlePath, $this->getBaseGeneratorName()),
+                sprintf('%sResources/views/%s/new', $bundlePath, $this->getBaseGeneratorName()),
+                sprintf('%sResources/views/%s/edit', $bundlePath, $this->getBaseGeneratorName()),
+                sprintf('%sForm/Type/%s/', $bundlePath, $this->getBaseGeneratorName())
+            ), function($e) { return is_dir($e); }
+        );
+
+        $files = Finder::create()
+                ->files()
+                ->date('< '.date('Y-m-d H:i:s',$fileInfo->getMTime()))
+                ->in($paths)
+                ->count()
+        ;
+
+        if ($files > 0) {
+            return true;
+        }
+
+        // If the generated file if is a fake empty class
+        $finder = Finder::create();
         foreach ($finder->files()->in($cacheDir) as $file) {
             if (false !== strpos(file_get_contents($file), 'AdmingeneratorEmptyBuilderClass')) {
                 return true;
