@@ -104,8 +104,10 @@ class RoutingLoader extends Loader
             $resource = str_replace('\\', '/', $this->locator->locate($resource));
             $this->yaml = Yaml::parse($this->getGeneratorFilePath($resource));
             $namespace = $this->getNamespaceFromResource($resource);
+
             // TODO: test if needed
             // $fullBundleName = $this->getFullBundleNameFromResource($resource); // Neded to load other routes
+
             $bundle_name = $this->getBundleNameFromResource($resource);
             $controller_folder = $this->getControllerFolder($resource);
 
