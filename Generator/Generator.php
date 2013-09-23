@@ -114,40 +114,6 @@ abstract class Generator extends ContainerAware implements GeneratorInterface
             return true;
         }
 
-        // If there are controllers, views or forms in the user bundle newer than the newest cache file
-        $files = Finder::create()
-            ->files()
-            ->sortByModifiedTime()
-            ->in($cacheDir)
-            ->getIterator()
-        ;
-        foreach ($files as $file) {
-            $fileInfo = new \SplFileInfo($file);
-            break;
-        }
-
-        $bundlePath = $this->container->get('file_locator')->locate(sprintf('@%s%s', $namespace, $bundle));
-        $paths = array_filter(
-            array(
-                sprintf('%sController/%s', $bundlePath, $this->getBaseGeneratorName()),
-                sprintf('%sResources/views/%s/list', $bundlePath, $this->getBaseGeneratorName()),
-                sprintf('%sResources/views/%s/new', $bundlePath, $this->getBaseGeneratorName()),
-                sprintf('%sResources/views/%s/edit', $bundlePath, $this->getBaseGeneratorName()),
-                sprintf('%sForm/Type/%s/', $bundlePath, $this->getBaseGeneratorName())
-            ), function($e) { return is_dir($e); }
-        );
-
-        $files = Finder::create()
-                ->files()
-                ->date('< '.date('Y-m-d H:i:s',$fileInfo->getMTime()))
-                ->in($paths)
-                ->count()
-        ;
-
-        if ($files > 0) {
-            return true;
-        }
-
         // If the generated file if is a fake empty class
         $finder = Finder::create();
         foreach ($finder->files()->in($cacheDir) as $file) {
