@@ -1,7 +1,13 @@
 {% use '../Admin/security_action.php.twig' %}
 {% block index_use %}
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use {{ builder.namespacePrefixWithSubfolder }}\{{ bundle_name }}\Form\Type\{{ builder.BaseGeneratorName ? builder.BaseGeneratorName ~ char(92) : "" }}NewType;
+use {{ builder.getDefinedOrGeneratedFormTypeClass(
+    builder.namespacePrefixWithSubfolder,
+    bundle_name,
+    builder.BaseGeneratorName,
+    "\NewType"
+) ~ ';' }}
+
 {% endblock %}
 {% block index %}
 

@@ -1,6 +1,11 @@
 {% use '../Admin/security_action.php.twig' %}
 {% block index_use %}
-use {{ builder.namespacePrefixWithSubfolder }}\{{ bundle_name }}\Form\Type\{{ builder.BaseGeneratorName ? builder.BaseGeneratorName ~ char(92) : "" }}FiltersType;
+use {{ builder.getDefinedOrGeneratedFormTypeClass(
+    builder.namespacePrefixWithSubfolder,
+    bundle_name,
+    builder.BaseGeneratorName,
+    "\FiltersType"
+) ~ ';' }}
 {% endblock %}
 {% block index %}
 
