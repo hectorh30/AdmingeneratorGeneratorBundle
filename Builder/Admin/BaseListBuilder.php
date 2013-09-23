@@ -61,7 +61,7 @@ class BaseListBuilder extends BaseBuilder
         }
 
         foreach ($filters['display'] as $columnName) {
-            $column = new Column($columnName);
+            $column = new $this->columnClass($columnName);
 
             $column->setDbType(
                 $this->getFieldOption(

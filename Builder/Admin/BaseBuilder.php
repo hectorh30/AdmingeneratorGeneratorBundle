@@ -96,7 +96,9 @@ class BaseBuilder extends GenericBaseBuilder
                 );
             }
             //Set the user parameters
+            error_log('about to set user parameters for: '.$column->getName());
             $this->setUserColumnConfiguration($column);
+            error_log('finished');
 
             $this->addColumn($column);
         }
@@ -112,7 +114,7 @@ class BaseBuilder extends GenericBaseBuilder
         return $this->columnClass = $columnClass;
     }
 
-    protected function getFieldOption(Column $column, $optionName, $default = null)
+    protected function getFieldOption($column, $optionName, $default = null)
     {
         $options = $this->getVariable(
             sprintf('fields[%s]', $column->getName()),
@@ -123,7 +125,7 @@ class BaseBuilder extends GenericBaseBuilder
         return isset($options[$optionName]) ? $options[$optionName] : $default;
     }
 
-    protected function setUserColumnConfiguration(Column $column)
+    protected function setUserColumnConfiguration($column)
     {
         $options = $this->getVariable(
             sprintf('fields[%s]', $column->getName()),
@@ -132,6 +134,7 @@ class BaseBuilder extends GenericBaseBuilder
         );
 
         foreach ($options as $option => $value) {
+            error_log('  setting property: '.$option.' over class: '.get_class($column));
             $column->setProperty($option, $value);
         }
     }
