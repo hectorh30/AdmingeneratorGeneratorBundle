@@ -1,6 +1,10 @@
 {% use "../Admin/EditTemplate/fieldset.php.twig" %}
 {% use '../Admin/generic_actions.php.twig' %}
 
+{% if builder.getExtendingFormTemplate %}
+    {{- echo_extends(builder.getExtendingFormTemplate) }}
+{% endif %}
+
 {% block form %}
     {{ echo_block('form') }}
     <form class="admin_form"
@@ -9,7 +13,7 @@
         {{ echo_else() }}
             action="{{ echo_path(builder.routePrefixWithSubfolder ~ '_' ~ bundle_name ~ ( builder.BaseGeneratorName ? "_" ~ builder.BaseGeneratorName : "" ) ~ "_create" ) }}"
         {{ echo_endif () }}
-        method="post" {{ echo_twig("form_enctype(form)") }}>
+            method="post" {{ echo_twig("form_enctype(form)") }}>
 
         {{ echo_twig("form_errors(form)") }}
         {% if tabs is defined and tabs|length > 0 %}

@@ -8,10 +8,6 @@ namespace Admingenerator\GeneratorBundle\Builder\Admin;
  */
 class NewTemplateBuilder extends BaseNewBuilder
 {
-    /**
-     * (non-PHPdoc)
-     * @see \Admingenerator\GeneratorBundle\Builder\BaseBuilder::getTemplatesToGenerate()
-     */
     public function getTemplatesToGenerate()
     {
         return parent::getTemplatesToGenerate() + array(
@@ -20,5 +16,22 @@ class NewTemplateBuilder extends BaseNewBuilder
             'Edit/FormTemplateBuilder'.self::TWIG_EXTENSION
                 => 'Resources/views/'.$this->getBaseGeneratorName().'/new/form.html.twig',
         );
+    }
+
+    /**
+     * Returns the corresponding template to extend the form view
+     * 
+     * @return string
+     */
+    public function getExtendingFormTemplate()
+    {
+        if ($this->getGenerator()->getFromYaml('builders.form')) {
+            $bundle = $this->getNamespacePrefixForTemplate() . $this->getVariable('bundle_name');
+            $folder = $this->getBaseGeneratorName();
+            $file = 'form.html.twig';
+            return $this->getDefinedOrGeneratedTemplateName($bundle, $folder, $file);
+        }
+
+        return false;
     }
 }

@@ -21,4 +21,21 @@ class EditTemplateBuilder extends BaseEditBuilder
                 => 'Resources/views/'.$this->getBaseGeneratorName().'/edit/form.html.twig',
         );
     }
+
+    /**
+     * Returns the corresponding template to extend the form view
+     * 
+     * @return string
+     */
+    public function getExtendingFormTemplate()
+    {
+        if ($this->getGenerator()->getFromYaml('builders.form')) {
+            $bundle = $this->getNamespacePrefixForTemplate() . $this->getVariable('bundle_name');
+            $folder = $this->getBaseGeneratorName();
+            $file = 'form.html.twig';
+            return $this->getDefinedOrGeneratedTemplateName($bundle, $folder, $file);
+        }
+
+        return false;
+    }
 }

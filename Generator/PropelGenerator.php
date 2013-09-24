@@ -22,6 +22,9 @@ use Admingenerator\GeneratorBundle\Builder\Propel\NewFormTypeBuilder;
 use Admingenerator\GeneratorBundle\Builder\Propel\ShowControllerBuilder;
 use Admingenerator\GeneratorBundle\Builder\Propel\ShowTemplateBuilder;
 
+use Admingenerator\GeneratorBundle\Builder\Propel\FormTemplateBuilder;
+use Admingenerator\GeneratorBundle\Builder\Propel\FormFormTypeBuilder;
+
 use Admingenerator\GeneratorBundle\Builder\Propel\ActionsControllerBuilder;
 use Admingenerator\GeneratorBundle\Builder\Propel\ActionsTemplateBuilder;
 
@@ -103,6 +106,11 @@ class PropelGenerator extends Generator
         if (array_key_exists('actions', $builders)) {
             $generator->addBuilder(new ActionsControllerBuilder());
             $generator->addBuilder(new ActionsTemplateBuilder());
+        }
+
+        if (array_key_exists('form', $builders)) {
+            $generator->addBuilder(new FormFormTypeBuilder());
+            $generator->addBuilder(new FormTemplateBuilder());
         }
 
         $generator->writeOnDisk(

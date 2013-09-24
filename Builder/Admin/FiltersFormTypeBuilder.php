@@ -17,4 +17,9 @@ class FiltersFormTypeBuilder extends BaseFiltersBuilder
     {
         return 'EditFormTypeBuilder'.self::TWIG_EXTENSION;
     }
+
+    public function getExtendingClassName($namespace, $bundle, $generator)
+    {
+        return '\\Symfony\\Component\\Form\\AbstractType';
+    }
 }

@@ -3,16 +3,16 @@
 
 namespace Admingenerated\{{ namespace_prefix }}{{ bundle_name }}\Form\Type\{{ builder.BaseGeneratorName }};
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use JMS\SecurityExtraBundle\Security\Authorization\Expression\Expression;
 
-class {{ builder.YamlKey|ucfirst }}Type extends AbstractType
+class {{ builder.YamlKey|ucfirst }}Type extends {{ builder.getExtendingClassName(namespace_prefix, bundle_name, builder.BaseGeneratorName) }}
 {
     protected $securityContext;
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        parent::buildForm($builder, $options);
     {% for column in builder.columns %}
     {%- if column.credentials -%}
         if (false !== $this->securityContext->isGranted(array(new Expression('{{ column.credentials }}')), $builder->getData())) {

@@ -639,11 +639,11 @@ class BaseBuilder extends GenericBaseBuilder
      */
     public function getDefinedOrGeneratedFormTypeClass($namespace, $bundle, $generator, $formName)
     {
-        $formClass = sprintf('%s\\%s\\Form\\Type\\%s\\%s', $namespace, $bundle, $generator, $formName);
+        $formClass = sprintf('\\%s\\%s\\Form\\Type\\%s\\%s', $namespace, $bundle, $generator, $formName);
 
         if (class_exists($formClass))
             return $formClass;
 
-        return sprintf('Admingenerated\\%s%s\\Form\\Type\\%s\\%s', $namespace, $bundle, $generator, $formName);
+        return sprintf('\\Admingenerated\\%s%s\\Form\\Type\\%s\\%s', $namespace, $bundle, $generator, $formName);
     }
 }
