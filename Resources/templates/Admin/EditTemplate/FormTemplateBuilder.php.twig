@@ -3,10 +3,10 @@
 
 {% if builder.getExtendingFormTemplate %}
     {{- echo_extends(builder.getExtendingFormTemplate) }}
-{% endif %}
-
+{% else %}
 {% block form %}
     {{ echo_block('form') }}
+    {% block form_declaration_start %}
     <form class="admin_form"
         {{ echo_if (builder.ModelClass ~ "." ~ builder.getFieldGuesser().getModelPrimaryKeyName(model) ) }}
             action="{{ echo_path(builder.routePrefixWithSubfolder ~ '_' ~ bundle_name ~ ( builder.BaseGeneratorName ? "_" ~ builder.BaseGeneratorName : "" ) ~ "_update", "{ 'pk': " ~ builder.ModelClass ~ "."~ builder.getFieldGuesser().getModelPrimaryKeyName(model) ~ " }" ) }}"
@@ -14,8 +14,12 @@
             action="{{ echo_path(builder.routePrefixWithSubfolder ~ '_' ~ bundle_name ~ ( builder.BaseGeneratorName ? "_" ~ builder.BaseGeneratorName : "" ) ~ "_create" ) }}"
         {{ echo_endif () }}
             method="post" {{ echo_twig("form_enctype(form)") }}>
+    {% endblock form_declaration_start %}
 
         {{ echo_twig("form_errors(form)") }}
+
+        {% block form_content %}
+        {{ echo_block('form_content') }}
         {% if tabs is defined and tabs|length > 0 %}
         <div class="tab-content">
         {% endif %}
@@ -25,6 +29,9 @@
         {% if tabs is defined and tabs|length > 0 %}
         </div>
         {% endif %}
+        {{ echo_endblock() }}
+        {% endblock form_content %}
+
 
         {{ echo_twig("form_rest(form)") }}
 
@@ -35,6 +42,9 @@
             </div>
         </div>
         {{ echo_endblock() }}
+    {% block form_declaration_end %}
     </form>
+    {% endblock form_declaration_end %}
     {{ echo_endblock() }}
 {% endblock %}
+{% endif %}
