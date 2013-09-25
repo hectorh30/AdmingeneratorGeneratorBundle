@@ -192,15 +192,20 @@ class PropelORMFieldGuesser extends ContainerAware
             $valueSet = $this->getMetadatas()->getColumn($columnName)->getValueSet();
 
             return array(
-                'required' => $this->isRequired($columnName),
                 'choices'  => array_combine($valueSet, $valueSet),
             );
         }
 
-        return array('required' => $this->isRequired($columnName));
+        return array('required' => $this->isRequiredColumn($columnName));
     }
 
-    protected function isRequired($fieldName)
+    /**
+     * Returns if the column is required based on propel's definition
+     * 
+     * @param  string  $fieldName 
+     * @return boolean
+     */
+    protected function isRequiredColumn($fieldName)
     {
         $column = $this->getColumn(self::$current_class, $fieldName);
 
@@ -262,6 +267,12 @@ class PropelORMFieldGuesser extends ContainerAware
         throw new \LogicException('No valid primary keys found');
     }
 
+    /**
+     * Returns Propel runtime table
+     * 
+     * @param  string $class
+     * @return \TableMap
+     */
     protected function getTable($class)
     {
         if (isset($this->cache[$class])) {
@@ -277,6 +288,13 @@ class PropelORMFieldGuesser extends ContainerAware
         throw new \LogicException('Can\'t find query class '.$queryClass);
     }
 
+    /**
+     * Get propels runtime column for given class property
+     * 
+     * @param  string $class
+     * @param  string $property
+     * @return \ColumnMap
+     */
     protected function getColumn($class, $property)
     {
         if (isset($this->cache[$class.'::'.$property])) {
