@@ -53,8 +53,9 @@ class BaseBuilder extends GenericBaseBuilder
 
     protected function findColumns()
     {
-        foreach ($this->getDisplayAsColumns() as $columnName) {
+        $this->columns = array();
 
+        foreach ($this->getDisplayAsColumns() as $columnName) {
             $column = new $this->columnClass($columnName);
 
             $column->setDbType(
@@ -230,12 +231,37 @@ class BaseBuilder extends GenericBaseBuilder
     }
 
     /**
+     * Returns the fieldset for a particular tab
+     * 
+     * @param  [type] $fieldsetName [description]
+     * @param  [type] $tab          [description]
+     * @return [type]               [description]
+     */
+    public function getFieldset($fieldsetName, $tab = null)
+    {
+        if (!$tab) {
+            $fieldsets = $this->getFieldsets();
+            return $fieldsets[$fieldsetName];
+        }
+
+        $display = $this->getVariable('tabs');
+
+        if (null == $display || 0 == sizeof($display))
+            throw new \InvalidArgumentException(sprintf('Tab %s empty or undefined'));
+
+        $display = $display[$tab];
+        foreach ($display as $fieldset => $rows_or_fields) {
+            $display[$fieldset] = $this->getRowsFromFieldset($rows_or_fields);
+        }
+
+        return $display[$fieldsetName];
+    }
+
+    /**
      * @return array
      */
     public function getFieldsets()
     {
-        return array();
-
         $display = $this->getVariable('display');
 
         // tabs
@@ -252,7 +278,8 @@ class BaseBuilder extends GenericBaseBuilder
         }
 
         if (null == $display || 0 == sizeof($display)) {
-            $display = $this->getAllFields();
+            // $display = $this->getAllFields();
+            $display = array();
         }
 
         if (isset($display[0])) {
@@ -266,6 +293,11 @@ class BaseBuilder extends GenericBaseBuilder
         return $display;
     }
 
+    /**
+     * 
+     * @param   array $rows_or_fields
+     * @return  array
+     */
     protected function getRowsFromFieldset(array $rows_or_fields)
     {
         $rows = array();
