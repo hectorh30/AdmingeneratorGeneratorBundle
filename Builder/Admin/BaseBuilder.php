@@ -421,7 +421,7 @@ class BaseBuilder extends GenericBaseBuilder
 
         foreach ($objectActions as $actionName => $actionParams) {
             $action = $this->findObjectAction($actionName);
-            if(!$action) {
+            if (!$action) {
                 $action = new Action($actionName);
             }
 
@@ -438,24 +438,40 @@ class BaseBuilder extends GenericBaseBuilder
 
     public function findGenericAction($actionName)
     {
-        $class = 'Admingenerator\\GeneratorBundle\\Generator\\Action\\Generic\\'
+
+        if ($this->getContainer()->hasParameter(sprintf('admingenerator.actions.generic.%s.class', $actionName))) {
+            $class = $this->getContainer()->getParameter(sprintf('admingenerator.actions.generic.%s.class', $actionName));
+        } else {
+            // TODO: remove BC
+            $class = 'Admingenerator\\GeneratorBundle\\Generator\\Action\\Generic\\'
                 .Container::camelize(str_replace('-', '_', $actionName) . 'Action');
+        }
 
         return (class_exists($class)) ? new $class($actionName, $this) : false;
-    }
+    } 
 
     public function findObjectAction($actionName)
     {
-        $class = 'Admingenerator\\GeneratorBundle\\Generator\\Action\\Object\\'
-                .Container::camelize(str_replace('-', '_', $actionName) . 'Action');
+        if ($this->getContainer()->hasParameter(sprintf('admingenerator.actions.object.%s.class', $actionName))) {
+            $class = $this->getContainer()->getParameter(sprintf('admingenerator.actions.object.%s.class', $actionName));
+        } else {
+            // TODO: remove BC
+            $class = 'Admingenerator\\GeneratorBundle\\Generator\\Action\\Object\\'
+                    .Container::camelize(str_replace('-', '_', $actionName) . 'Action');
+        }
 
         return (class_exists($class)) ? new $class($actionName, $this) : false;
     }
 
     public function findBatchAction($actionName)
     {
-        $class = 'Admingenerator\\GeneratorBundle\\Generator\\Action\\Batch\\'
+        if ($this->getContainer()->hasParameter(sprintf('admingenerator.actions.batch.%s.class', $actionName))) {
+            $class = $this->getContainer()->getParameter(sprintf('admingenerator.actions.batch.%s.class', $actionName));
+        } else {
+            // TODO: remove BC
+            $class = 'Admingenerator\\GeneratorBundle\\Generator\\Action\\Batch\\'
                 .Container::camelize(str_replace('-', '_', $actionName) . 'Action');
+        }
 
         return (class_exists($class)) ? new $class($actionName, $this) : false;
     }

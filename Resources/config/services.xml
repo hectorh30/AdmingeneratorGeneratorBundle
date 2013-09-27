@@ -16,6 +16,13 @@
         <parameter key="admingenerator.overwrite_if_exists">false</parameter>
         <parameter key="admingenerator.validator.model_class.class">Admingenerator\GeneratorBundle\Validator\ModelClassValidator</parameter>
         <parameter key="admingenerator.validator.propel_model_class.class">Admingenerator\GeneratorBundle\Validator\PropelModelClassValidator</parameter>
+
+        <parameter key="admingenerator.actions.generic.save.class">Admingenerator\GeneratorBundle\Generator\Action\SaveAction</parameter>
+        <parameter key="admingenerator.actions.generic.list.class">Admingenerator\GeneratorBundle\Generator\Action\ListAction</parameter>
+        <parameter key="admingenerator.actions.generic.new.class">Admingenerator\GeneratorBundle\Generator\Action\NewAction</parameter>
+        <parameter key="admingenerator.actions.generic.save_and_add.class">Admingenerator\GeneratorBundle\Generator\Action\SaveAndAddAction</parameter>
+        <parameter key="admingenerator.actions.generic.save_and_list.class">Admingenerator\GeneratorBundle\Generator\Action\SaveAndListAction</parameter>
+        
     </parameters>
 
     <services>

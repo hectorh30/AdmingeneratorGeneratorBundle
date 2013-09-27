@@ -7,6 +7,7 @@ use Admingenerator\GeneratorBundle\Generator\Action;
 
 /**
  * This class describes generic Save action
+ * 
  * @author Piotr Gołębiewski <loostro@gmail.com>
  */
 class SaveAction extends Action
