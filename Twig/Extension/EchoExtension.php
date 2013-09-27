@@ -50,6 +50,7 @@ class EchoExtension extends \Twig_Extension
             'echo_twig_filter'    => new \Twig_Function_Method($this, 'getEchoTwigFilter'),
             'echo_include'        => new \Twig_Function_Method($this, 'getEchoInclude'),
             'echo_render'         => new \Twig_Function_Method($this, 'getEchoRender'),
+            'echo_use'            => new \Twig_Function_Method($this, 'getEchoUse'),
             'char'                => new \Twig_Function_Method($this, 'char'),
         );
     }
@@ -467,6 +468,11 @@ class EchoExtension extends \Twig_Extension
     public function getEchoExtends($name)
     {
         return str_replace('%%name%%', $name, '{% extends "%%name%%" %}');
+    }
+
+    public function getEchoUse($value)
+    {
+        return str_replace('%%value%%', $value, '{% use "%%value%%" %}');
     }
 
     public function getEchoEndBlock()
