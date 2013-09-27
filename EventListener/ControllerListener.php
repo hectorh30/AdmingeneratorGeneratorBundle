@@ -101,8 +101,6 @@ class ControllerListener
             // $namespace_directory = realpath($this->container->getParameter('kernel.root_dir').'/../vendor/bundles/'.$dir.'/Resources/config');
         }
 
-        error_log('namespace directory: '.$namespace_directory);
-
         if (is_dir($namespace_directory)) {
             $generatorName  = $this->getBaseGeneratorName($controller) ? $this->getBaseGeneratorName($controller).'-' : '';
             $generatorName .= 'generator.yml';
