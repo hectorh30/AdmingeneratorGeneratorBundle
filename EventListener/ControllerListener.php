@@ -86,22 +86,31 @@ class ControllerListener
     protected function getGeneratorYml($controller)
     {
         preg_match('/(.+)?Controller.+::.+/', $controller, $matches);
+
         $dir = str_replace('\\', DIRECTORY_SEPARATOR, $matches[1]);
-
-        $generatorName  = $this->getBaseGeneratorName($controller) ? $this->getBaseGeneratorName($controller).'-' : '';
-        $generatorName .= 'generator.yml';
-
-        $finder = new Finder();
-        $finder->files()
-               ->name($generatorName);
+        $namespace_directory = '';
 
         if (is_dir($src = realpath($this->container->getParameter('kernel.root_dir').'/../src/'.$dir.'/Resources/config'))) {
             $namespace_directory = $src;
         } else {
-            $namespace_directory = realpath($this->container->getParameter('kernel.root_dir').'/../vendor/bundles/'.$dir.'/Resources/config');
+            preg_match(str_replace('/', '#Admingenerated/(.+Bundle).+#', DIRECTORY_SEPARATOR), $dir, $matches);
+            if ($matches[0]) {
+                $namespace_directory = $this->container->get('file_locator')->locate(sprintf('@%s', $matches[1])).'Resources/config';
+            }
+
+            // $namespace_directory = realpath($this->container->getParameter('kernel.root_dir').'/../vendor/bundles/'.$dir.'/Resources/config');
         }
 
+        error_log('namespace directory: '.$namespace_directory);
+
         if (is_dir($namespace_directory)) {
+            $generatorName  = $this->getBaseGeneratorName($controller) ? $this->getBaseGeneratorName($controller).'-' : '';
+            $generatorName .= 'generator.yml';
+
+            $finder = new Finder();
+            $finder->files()
+                   ->name($generatorName);
+
             $finder->in($namespace_directory);
             $it = $finder->getIterator();
             $it->rewind();
