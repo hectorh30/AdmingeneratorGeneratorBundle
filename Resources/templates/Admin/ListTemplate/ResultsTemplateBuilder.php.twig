@@ -6,6 +6,8 @@
 {% use '../Admin/batch_actions.php.twig' %}
 
 {% block list_results %}
+{{ echo_block('list_results') }}
+
 <div class="results-list">
     {{ block('list_nbresults') -}}
 
@@ -18,6 +20,7 @@
     </table>
     {{ echo_endblock() }}
 
+    {% block batch_actions_container %}
     {{ echo_block("batch_actions_container") }}
     <div class="form-actions list-actions">
     {% if batch_actions is defined and batch_actions|length > 0 %}
@@ -28,15 +31,18 @@
         {{ echo_block("batch_actions") }}
     {% endif -%}
     {{ echo_endblock() }}
+    {% endblock %}
 
 
-    {{ echo_block("actions") }}
+    {% block generic_actions_container %}
+    {{ echo_block("generic_actions_container") }}
     {% if actions is defined and actions|length > 0 %}
         <div id="generic_actions" class="pull-left btn-toolbar">
             {{ block('generic_actions') -}}
         </div>
     {% endif -%}
     {{ echo_endblock() }}
+    {% endblock generic_actions_container %}
 
         <div class="pull-right btn-toolbar">
             {{- block('list_paginator_perpage') -}}
@@ -48,4 +54,6 @@
     </div>
     {{- block('end_batch_actions_form') }}
 </div>
+
+{{ echo_endblock() }}
 {% endblock list_results %}
