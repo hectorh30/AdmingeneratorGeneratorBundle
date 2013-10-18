@@ -20,17 +20,16 @@
     </table>
     {{ echo_endblock() }}
 
+    <div class="form-actions list-actions">
     {% block batch_actions_container %}
     {{ echo_block("batch_actions_container") }}
-    <div class="form-actions list-actions">
     {% if batch_actions is defined and batch_actions|length > 0 %}
         {{ echo_block("batch_actions") }}
         <div id="batch_actions" class="pull-left btn-toolbar">
             {{ block('batch_actions') }}
         </div>
-        {{ echo_block("batch_actions") }}
+        {{ echo_endblock("batch_actions") }}
     {% endif -%}
-    </div>
     {{ echo_endblock() }}
     {% endblock %}
 

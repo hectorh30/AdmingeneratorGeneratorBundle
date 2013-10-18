@@ -51,6 +51,7 @@ class EchoExtension extends \Twig_Extension
             'echo_include'        => new \Twig_Function_Method($this, 'getEchoInclude'),
             'echo_render'         => new \Twig_Function_Method($this, 'getEchoRender'),
             'echo_use'            => new \Twig_Function_Method($this, 'getEchoUse'),
+            'echo_call'           => new \Twig_Function_Method($this, 'getEchoCall'),
             'char'                => new \Twig_Function_Method($this, 'char'),
         );
     }
@@ -456,6 +457,11 @@ class EchoExtension extends \Twig_Extension
                 '%%filters%%' => (is_array($filters) ? implode('|', $filters) : $filters)
             )
         );
+    }
+
+    public function getEchoCall($call)
+    {
+        return str_replace('%%call%%', $call, '{{ %%call%% }}');
     }
 
     public function getEchoBlock($name)
