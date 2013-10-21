@@ -6,7 +6,7 @@ namespace Admingenerator\GeneratorBundle\Builder\Admin;
  * This builder generates php for edit actions
  * @author Eymen Gunay
  */
-class ShowControllerBuilder extends BaesShowBuilder
+class ShowControllerBuilder extends BaseShowBuilder
 {
     public function getOutputName()
     {
