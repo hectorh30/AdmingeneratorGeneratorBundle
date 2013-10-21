@@ -22,7 +22,13 @@
         <parameter key="admingenerator.actions.generic.new.class">Admingenerator\GeneratorBundle\Generator\Action\NewAction</parameter>
         <parameter key="admingenerator.actions.generic.save_and_add.class">Admingenerator\GeneratorBundle\Generator\Action\SaveAndAddAction</parameter>
         <parameter key="admingenerator.actions.generic.save_and_list.class">Admingenerator\GeneratorBundle\Generator\Action\SaveAndListAction</parameter>
-        
+
+        <parameter key="admingenerator.actions.object.delete.class">Admingenerator\GeneratorBundle\Generator\Action\Object\DeleteAction</parameter>
+        <parameter key="admingenerator.actions.object.edit.class">Admingenerator\GeneratorBundle\Generator\Action\Object\EditAction</parameter>
+        <parameter key="admingenerator.actions.object.show.class">Admingenerator\GeneratorBundle\Generator\Action\Object\ShowAction</parameter>
+
+        <parameter key="admingenerator.propel_builder.list_template">Admingenerator\GeneratorBundle\Builder\Propel\ListTemplateBuilder</parameter>
+
     </parameters>
 
     <services>

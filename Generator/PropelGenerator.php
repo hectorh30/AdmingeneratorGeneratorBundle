@@ -76,7 +76,8 @@ class PropelGenerator extends Generator
 
         if (array_key_exists('list', $builders)) {
             $generator->addBuilder(new ListControllerBuilder());
-            $generator->addBuilder(new ListTemplateBuilder());
+            $listTemplateBuilderClass = $this->container->getParameter('admingenerator.propel_builder.list_template');
+            $generator->addBuilder(new $listTemplateBuilderClass);
             $generator->addBuilder(new FiltersFormTypeBuilder());
         }
 
