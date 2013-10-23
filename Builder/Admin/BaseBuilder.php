@@ -594,8 +594,7 @@ class BaseBuilder extends GenericBaseBuilder
     /**
      * Allow to add complementary javascripts
      *
-     *
-     * param:
+     * params:
      *   javascripts:
      *     - path/js.js
      *     - { path: path/js.js }
@@ -606,7 +605,7 @@ class BaseBuilder extends GenericBaseBuilder
     public function getJavascripts()
     {
         $self = $this;
-        $parse_javascripts = function ($params, $javascripts) use ($self) {
+        $parse_javascripts = function($params, $javascripts) use ($self) {
             foreach ($params as $js) {
 
                 if (is_string($js)) {
