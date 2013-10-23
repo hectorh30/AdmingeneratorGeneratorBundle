@@ -18,7 +18,12 @@
             method="post" {{ echo_twig("form_enctype(form)") }}>
 {{ echo_endblock() }}
 {% endblock %}
+
+{% block form_errors %}
+{{ echo_block('form_errors') }}
         {{ echo_twig("form_errors(form)") }}
+{{ echo_endblock() }}
+{% endblock %}
 
         {% block form_content %}
         {{ echo_block('form_content') }}
