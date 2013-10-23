@@ -42,14 +42,6 @@ class GeneratorCacheWarmer implements CacheWarmerInterface
      */
     public function warmUp($cacheDir)
     {
-        foreach ($this->finder->findAllGeneratorYamls() as $yaml) {
-            try {
-                $this->buildFromYaml($yaml);
-            } catch (GeneratedModelClassNotFoundException $e) {
-                echo ">> Skip warmup ".$e->getMessage()."\n";
-            }
-        }
-
         /**
          * Load class to avoid problem with other cache warmers
          * like JmsDiExtraBundle
@@ -59,6 +51,14 @@ class GeneratorCacheWarmer implements CacheWarmerInterface
         $AdmingeneratedClassLoader = new AdmingeneratedClassLoader;
         $AdmingeneratedClassLoader->setBasePath($cacheDir);
         $AdmingeneratedClassLoader->register();
+        
+        foreach ($this->finder->findAllGeneratorYamls() as $yaml) {
+            try {
+                $this->buildFromYaml($yaml);
+            } catch (GeneratedModelClassNotFoundException $e) {
+                echo ">> Skip warmup ".$e->getMessage()."\n";
+            }
+        }
     }
 
     /**
