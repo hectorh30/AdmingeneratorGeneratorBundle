@@ -89,13 +89,15 @@ class PropelGenerator extends Generator
 
         if (array_key_exists('edit', $builders)) {
             $generator->addBuilder(new EditControllerBuilder());
-            $generator->addBuilder(new EditTemplateBuilder());
+            $editTemplateBuilder = $this->container->getParameter('admingenerator.propel_builder.edit_template');
+            $generator->addBuilder(new $editTemplateBuilder);
             $generator->addBuilder(new EditFormTypeBuilder());
         }
 
         if (array_key_exists('new', $builders)) {
             $generator->addBuilder(new NewControllerBuilder());
-            $generator->addBuilder(new NewTemplateBuilder());
+            $newTemplateBuilderClass = $this->container->getParameter('admingenerator.propel_builder.new_template');
+            $generator->addBuilder(new $newTemplateBuilderClass);
             $generator->addBuilder(new NewFormTypeBuilder());
         }
 

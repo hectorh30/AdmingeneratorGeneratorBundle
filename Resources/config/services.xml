@@ -28,6 +28,8 @@
         <parameter key="admingenerator.actions.object.show.class">Admingenerator\GeneratorBundle\Generator\Action\Object\ShowAction</parameter>
 
         <parameter key="admingenerator.propel_builder.list_template">Admingenerator\GeneratorBundle\Builder\Propel\ListTemplateBuilder</parameter>
+        <parameter key="admingenerator.propel_builder.edit_template">Admingenerator\GeneratorBundle\Builder\Propel\NewTemplateBuilder</parameter>
+        <parameter key="admingenerator.propel_builder.new_template">Admingenerator\GeneratorBundle\Builder\Propel\EditTemplateBuilder</parameter>
 
     </parameters>
 
