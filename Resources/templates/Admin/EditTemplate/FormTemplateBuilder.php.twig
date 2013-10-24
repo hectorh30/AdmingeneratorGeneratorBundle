@@ -1,9 +1,11 @@
 {% use "../Admin/EditTemplate/fieldset.php.twig" %}
 {% use '../Admin/generic_actions.php.twig' %}
 
+{% block extends_block %}
 {% if builder.getExtendingFormTemplate %}
     {{- echo_extends(builder.getExtendingFormTemplate) }}
 {% endif %}
+{% endblock extends_block %}
 
 {% block form %}
 {{ echo_block('form') }}
@@ -40,10 +42,11 @@
         {% if tabs is defined and tabs|length > 0 %}
         </div>
         {% endif %}
-        {{ echo_endblock() }}
-        {% endblock form_content %}
 
         {{ echo_twig("form_rest(form)") }}
+
+        {{ echo_endblock() }}
+        {% endblock form_content %}
 
         {% block form_buttons %}
         {{ echo_block("form_buttons") }}
@@ -54,6 +57,8 @@
         </div>
         {{ echo_endblock() }}
         {% endblock form_buttons %}
+{{ echo_block('form_close_tag') }}
     </form>
+{{ echo_endblock() }}
 {{ echo_endblock() }}
 {% endblock %}
